@@ -2,8 +2,7 @@
 namespace Hostnet\Component\EntityBlamable\Resolver;
 
 /**
- * @coversDefaultClass Hostnet\Component\EntityBlamable\Resolver\BlamableResolver
- * @covers ::__construct
+ * @covers Hostnet\Component\EntityBlamable\Resolver\BlamableResolver
  * @author Yannick de Lange <ydelange@hostnet.nl>
  */
 class BlamableResolverTest extends \PHPUnit_Framework_TestCase
@@ -27,9 +26,6 @@ class BlamableResolverTest extends \PHPUnit_Framework_TestCase
         $this->resolver = new BlamableResolver($this->provider);
     }
 
-    /**
-     * @covers ::getBlamableAnnotation
-     */
     public function testGetBlamableAnnotation()
     {
         $entity = new \stdClass();

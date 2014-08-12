@@ -6,8 +6,7 @@ use Hostnet\Component\EntityTracker\Event\EntityChangedEvent;
 
 /**
  * @author Iltar van der Berg <ivanderberg@hostnet.nl>
- * @covers ::__construct
- * @coversDefaultClass Hostnet\Component\EntityBlamable\Listener\BlamableListener
+ * @covers Hostnet\Component\EntityBlamable\Listener\BlamableListener
  */
 class BlamableListenerTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,9 +33,6 @@ class BlamableListenerTest extends \PHPUnit_Framework_TestCase
             ->willReturn($this->uow);
     }
 
-    /**
-     * @covers ::onEntityChanged
-     */
     public function testOnEntityChangedNoInterface()
     {
         $this->provider
@@ -45,12 +41,9 @@ class BlamableListenerTest extends \PHPUnit_Framework_TestCase
 
         $event    = new EntityChangedEvent($this->em, new \stdClass(), new \stdClass(), []);
         $listener = new BlamableListener($this->resolver, $this->provider);
-        $listener->onEntityChanged($event);
+        $listener->entityChanged($event);
     }
 
-    /**
-     * @covers ::onEntityChanged
-     */
     public function testOnEntityChangedExistingEntity()
     {
         $at = new \DateTime();
@@ -88,12 +81,9 @@ class BlamableListenerTest extends \PHPUnit_Framework_TestCase
 
         $event    = new EntityChangedEvent($this->em, $this->entity, new \stdClass(), []);
         $listener = new BlamableListener($this->resolver, $this->provider);
-        $listener->onEntityChanged($event);
+        $listener->entityChanged($event);
     }
 
-    /**
-     * @covers ::onEntityChanged
-     */
     public function testOnEntityChangedNewEntity()
     {
         $at = new \DateTime();
@@ -136,6 +126,6 @@ class BlamableListenerTest extends \PHPUnit_Framework_TestCase
 
         $event    = new EntityChangedEvent($this->em, $this->entity, new \stdClass(), []);
         $listener = new BlamableListener($this->resolver, $this->provider);
-        $listener->onEntityChanged($event);
+        $listener->entityChanged($event);
     }
 }
