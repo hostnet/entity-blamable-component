@@ -41,7 +41,7 @@ class BlamableListener
     /**
      * @param EntityChangedEvent $event
      */
-    public function onEntityChanged(EntityChangedEvent $event)
+    public function entityChanged(EntityChangedEvent $event)
     {
         $entity     = $event->getCurrentEntity();
         $annotation = $this->resolver->getBlamableAnnotation($event->getEntityManager(), $entity);
