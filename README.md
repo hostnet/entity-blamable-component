@@ -1,16 +1,27 @@
 README
 ======
 
+ - [What is the Entity Tracker?](#what-is-the-entity-blamable-component)
+ - [Requirements](#requirements)
+ - [Installation](#installation)
+
+### Documentation
+   - [How does it work?](#how-does-it-work)
+   - [Setup](#setup)
+     - [Registering the Events](#registering-the-events)
+     - [Creating a Provider for the Username and Timestamp](#creating-a-provider-for-the-username-and-timestamp)
+     - [Configuring the Entity](#configuring-the-entity)
+     - [What's Next?](#whats-next)
 
 What is the Entity Blamable Component?
 --------------------------------------
 The Entity Blamable Component is a library that utilizes the [Entity Tracker Component](https://github.com/hostnet/entity-tracker-component/) and lets you hook in to the entityChanged event.
 
-This component lets you automatically update entities by implementing `setUpdatedAt()`, `setUpdatedBy` and `setCreatedAt()`. At the given time, you have to implement all of them. If you need only 1 or 2 of the methods, pull requests are always allowed. It's not implemented yet due to lack of requirements in our use-cases.
+This component lets you automatically update entities by implementing `setUpdatedAt()`, `setUpdatedBy` and `setCreatedAt()`. At the given time, you have to implement all of them. If you need only 1 or 2 of the methods, pull requests are always allowed. It's not implemented yet due to lack of requirements for  our use-cases.
 
 Requirements
 ------------
-The blamable component requires a minimal php version of 5.4 and runs on Doctrine2. For specific requirements, please check [composer.json](../master/composer.json).
+The blamable component requires a minimum of php 5.4 and runs on Doctrine2. For specific requirements, please check [composer.json](../master/composer.json).
 
 Installation
 ------------
@@ -34,7 +45,7 @@ Documentation
 How does it work?
 -----------------
 
-It works by putting the `@Blamable` annotaton and BlamableInterface on your entity and registering the listener on the entityChanged event, assuming you have already configured the [Entity Tracker Component](https://github.com/hostnet/entity-tracker-component/#setup).
+It works by putting the `@Blamable` annotation and BlamableInterface on your Entity and registering the listener on the entityChanged event, assuming you have already configured the [Entity Tracker Component](https://github.com/hostnet/entity-tracker-component/#setup).
 
 For a usage example, follow the setup below.
 
@@ -51,6 +62,9 @@ Setup
 Here's an example of a very basic setup. Setting this up will be a lot easier if you use a framework that has a Dependency Injection Container.
 
 It might look a bit complicated to set up, but it's pretty much setting up the tracker component for the most part. If you use it in a framework, it's recommended to create a framework specific configuration package for this to automate this away.
+
+> Note: If you use Symfony2, you can take a look at the [hostnet/entity-tracker-bundle](https://github.com/hostnet/entity-tracker-bundle). This bundle is designed to configure the services for you.
+
 
 ```php
 
@@ -93,10 +107,10 @@ $event_manager->addEventListener('entityChanged', $blamable_listener);
 
 ```
 
-#### Creating the Provider for the username and time
+#### Creating a Provider for the Username and Timestamp
 The provider is used to feed the required values to the BlamableListener, this is the only interface that requires a custom implementation in your project.
 
-> Note that in the example I have defined the username as constructor param, but you might want to inject something that contains the currently logged in user and get that identifier.
+> Note that in the example the username is defined as constructor param, but you might want to inject something that contains the currently logged in user and get that identifier.
 
 ```php
 
@@ -128,7 +142,7 @@ class AcmeBlamableProvider implements BlamableProviderInterface
 ```
 
 #### Configuring the Entity
-All we have to do now is put the @Blamable annotation and BlamableInterface on our Entity.
+All we have to do now is put the `@Blamable` annotation and BlamableInterface on our Entity.
 
 ```php
 
