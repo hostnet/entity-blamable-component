@@ -1,7 +1,7 @@
 README
 ======
 
- - [What is the Entity Tracker?](#what-is-the-entity-blamable-component)
+ - [What is the Entity Blamable?](#what-is-the-entity-blamable-component)
  - [Requirements](#requirements)
  - [Installation](#installation)
 
