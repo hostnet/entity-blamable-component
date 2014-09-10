@@ -32,7 +32,7 @@ Installing is pretty easy, this package is available on [packagist](https://pack
 
 ```javascript
     "require" : {
-        "hostnet/entity-blamable-component" : "0.*"
+        "hostnet/entity-blamable-component" : "1.*"
     }
 
 ```
