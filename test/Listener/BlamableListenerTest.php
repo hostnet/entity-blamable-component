@@ -18,10 +18,10 @@ class BlamableListenerTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->em       = $this->getMock('Doctrine\ORM\EntityManagerInterface');
-        $this->resolver = $this->getMock('Hostnet\Component\EntityBlamable\Resolver\BlamableResolverInterface');
-        $this->provider = $this->getMock('Hostnet\Component\EntityBlamable\Provider\BlamableProviderInterface');
-        $this->entity   = $this->getMock('Hostnet\Component\EntityBlamable\BlamableInterface');
+        $this->em       = $this->createMock('Doctrine\ORM\EntityManagerInterface');
+        $this->resolver = $this->createMock('Hostnet\Component\EntityBlamable\Resolver\BlamableResolverInterface');
+        $this->provider = $this->createMock('Hostnet\Component\EntityBlamable\Provider\BlamableProviderInterface');
+        $this->entity   = $this->createMock('Hostnet\Component\EntityBlamable\BlamableInterface');
         $this->uow      = $this
             ->getMockBuilder('Doctrine\ORM\UnitOfWork')
             ->disableOriginalConstructor()
