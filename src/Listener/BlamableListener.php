@@ -56,7 +56,7 @@ class BlamableListener
         $entity->setUpdatedBy($updated_by);
         $entity->setUpdatedAt($changed_at);
 
-        if ($event->getEntityManager()->getUnitOfWork()->isScheduledForInsert($entity)) {
+        if (null === $event->getOriginalEntity()) {
             // new entity, also fill in created at
             $entity->setCreatedAt($changed_at);
         }

@@ -22,15 +22,6 @@ class BlamableListenerTest extends \PHPUnit_Framework_TestCase
         $this->resolver = $this->createMock('Hostnet\Component\EntityBlamable\Resolver\BlamableResolverInterface');
         $this->provider = $this->createMock('Hostnet\Component\EntityBlamable\Provider\BlamableProviderInterface');
         $this->entity   = $this->createMock('Hostnet\Component\EntityBlamable\BlamableInterface');
-        $this->uow      = $this
-            ->getMockBuilder('Doctrine\ORM\UnitOfWork')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->em
-            ->expects($this->any())
-            ->method('getUnitOfWork')
-            ->willReturn($this->uow);
     }
 
     public function testOnEntityChangedNoInterface()
@@ -68,11 +59,6 @@ class BlamableListenerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('setUpdatedBy')
             ->with($by);
-
-        $this->uow
-            ->expects($this->once())
-            ->method('isScheduledForInsert')
-            ->willReturn(false);
 
         $this->resolver
             ->expects($this->once())
@@ -114,17 +100,12 @@ class BlamableListenerTest extends \PHPUnit_Framework_TestCase
             ->method('setUpdatedBy')
             ->with($by);
 
-        $this->uow
-            ->expects($this->once())
-            ->method('isScheduledForInsert')
-            ->willReturn(true);
-
         $this->resolver
             ->expects($this->once())
             ->method('getBlamableAnnotation')
             ->willReturn(new Blamable());
 
-        $event    = new EntityChangedEvent($this->em, $this->entity, new \stdClass(), []);
+        $event    = new EntityChangedEvent($this->em, $this->entity, null, []);
         $listener = new BlamableListener($this->resolver, $this->provider);
         $listener->entityChanged($event);
     }
