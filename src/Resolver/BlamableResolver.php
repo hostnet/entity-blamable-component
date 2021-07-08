@@ -1,12 +1,14 @@
 <?php
+/**
+ * @copyright 2014-present Hostnet B.V.
+ */
+declare(strict_types=1);
+
 namespace Hostnet\Component\EntityBlamable\Resolver;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Hostnet\Component\EntityTracker\Provider\EntityAnnotationMetadataProvider;
 
-/**
- * @author Yannick de Lange <ydelange@hostnet.nl>
- */
 class BlamableResolver implements BlamableResolverInterface
 {
     /**

@@ -1,10 +1,13 @@
 <?php
+/**
+ * @copyright 2014-present Hostnet B.V.
+ */
+declare(strict_types=1);
+
 namespace Hostnet\Component\EntityBlamable;
 
 /**
  * Implement on Entities to trigger the BlamableEntityListener
- *
- * @author Iltar van der Berg <ivanderberg@hostnet.nl>
  */
 interface BlamableInterface
 {
