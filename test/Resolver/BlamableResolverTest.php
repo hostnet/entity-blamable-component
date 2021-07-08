@@ -1,17 +1,23 @@
 <?php
+/**
+ * @copyright 2014-present Hostnet B.V.
+ */
+declare(strict_types=1);
+
 namespace Hostnet\Component\EntityBlamable\Resolver;
 
+use PHPUnit\Framework\TestCase;
+
 /**
- * @covers Hostnet\Component\EntityBlamable\Resolver\BlamableResolver
- * @author Yannick de Lange <ydelange@hostnet.nl>
+ * @covers \Hostnet\Component\EntityBlamable\Resolver\BlamableResolver
  */
-class BlamableResolverTest extends \PHPUnit_Framework_TestCase
+class BlamableResolverTest extends TestCase
 {
     private $provider;
     private $resolver;
     private $em;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->provider = $this
             ->getMockBuilder('Hostnet\Component\EntityTracker\Provider\EntityAnnotationMetadataProvider')

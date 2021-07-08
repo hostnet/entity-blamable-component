@@ -1,14 +1,19 @@
 <?php
+/**
+ * @copyright 2014-present Hostnet B.V.
+ */
+declare(strict_types=1);
+
 namespace Hostnet\Component\EntityBlamable\Listener;
 
 use Hostnet\Component\EntityBlamable\Blamable;
 use Hostnet\Component\EntityTracker\Event\EntityChangedEvent;
+use PHPUnit\Framework\TestCase;
 
 /**
- * @author Iltar van der Berg <ivanderberg@hostnet.nl>
- * @covers Hostnet\Component\EntityBlamable\Listener\BlamableListener
+ * @covers \Hostnet\Component\EntityBlamable\Listener\BlamableListener
  */
-class BlamableListenerTest extends \PHPUnit_Framework_TestCase
+class BlamableListenerTest extends TestCase
 {
     private $em;
     private $resolver;
@@ -16,7 +21,7 @@ class BlamableListenerTest extends \PHPUnit_Framework_TestCase
     private $entity;
     private $uow;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->em       = $this->createMock('Doctrine\ORM\EntityManagerInterface');
         $this->resolver = $this->createMock('Hostnet\Component\EntityBlamable\Resolver\BlamableResolverInterface');

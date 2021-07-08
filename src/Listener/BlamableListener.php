@@ -1,4 +1,9 @@
 <?php
+/**
+ * @copyright 2014-present Hostnet B.V.
+ */
+declare(strict_types=1);
+
 namespace Hostnet\Component\EntityBlamable\Listener;
 
 use Hostnet\Component\EntityBlamable\BlamableInterface;
@@ -11,8 +16,6 @@ use Hostnet\Component\EntityTracker\Event\EntityChangedEvent;
  *
  * Attempts to set updated at, created at, updated by and updated at fields
  * in an entity using @Blamable and implementing the BlamableInterface
- *
- * @author Iltar van der Berg <ivanderberg@hostnet.nl>
  */
 class BlamableListener
 {
