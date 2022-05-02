@@ -21,5 +21,11 @@
         "psr-4": {
             "Hostnet\\Component\\EntityBlamable\\": "test/"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "hostnet/*":                                      true
+        }
     }
 }
