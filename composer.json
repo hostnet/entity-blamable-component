@@ -9,7 +9,7 @@
         "hostnet/entity-tracker-component": "^1.2.0||^2.0.0"
     },
     "require-dev": {
-        "hostnet/phpcs-tool": "^8.3",
+        "hostnet/phpcs-tool": "^9.1.0",
         "phpunit/phpunit":    "^9.5.6"
     },
     "autoload": {

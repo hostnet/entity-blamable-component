@@ -32,7 +32,7 @@ class BlamableResolverTest extends TestCase
         $this->resolver = new BlamableResolver($this->provider);
     }
 
-    public function testGetBlamableAnnotation()
+    public function testGetBlamableAnnotation(): void
     {
         $entity = new \stdClass();
 

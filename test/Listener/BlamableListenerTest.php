@@ -29,7 +29,7 @@ class BlamableListenerTest extends TestCase
         $this->entity   = $this->createMock('Hostnet\Component\EntityBlamable\BlamableInterface');
     }
 
-    public function testOnEntityChangedNoInterface()
+    public function testOnEntityChangedNoInterface(): void
     {
         $this->provider
             ->expects($this->never())
@@ -40,7 +40,7 @@ class BlamableListenerTest extends TestCase
         $listener->entityChanged($event);
     }
 
-    public function testOnEntityChangedExistingEntity()
+    public function testOnEntityChangedExistingEntity(): void
     {
         $at = new \DateTime();
         $by = 'henk';
@@ -75,7 +75,7 @@ class BlamableListenerTest extends TestCase
         $listener->entityChanged($event);
     }
 
-    public function testOnEntityChangedNewEntity()
+    public function testOnEntityChangedNewEntity(): void
     {
         $at = new \DateTime();
         $by = 'henk';
