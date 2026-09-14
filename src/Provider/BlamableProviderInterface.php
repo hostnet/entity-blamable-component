@@ -10,5 +10,5 @@ interface BlamableProviderInterface
 {
     public function getUpdatedBy(): string;
 
-    public function getChangedAt(): \DateTimeInterface;
+    public function getChangedAt(): \DateTime;
 }
