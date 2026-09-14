@@ -12,14 +12,16 @@ use Hostnet\Component\EntityBlamable\BlamableInterface;
 #[Blamable]
 class EntityWithAttribute implements BlamableInterface
 {
-    private ?\DateTime $created_at = null;
+    private ?\DateTimeInterface $created_at = null;
 
-    private ?string $updated_by    = null;
-    private ?\DateTime $updated_at = null;
+    private ?string $updated_by             = null;
+    private ?\DateTimeInterface $updated_at = null;
 
-    public function setUpdatedBy($by): void
+    public function setUpdatedBy(string $by): static
     {
         $this->updated_by = $by;
+
+        return $this;
     }
 
     public function getUpdatedBy(): ?string
@@ -27,22 +29,26 @@ class EntityWithAttribute implements BlamableInterface
         return $this->updated_by;
     }
 
-    public function setUpdatedAt(\DateTime $at): void
+    public function setUpdatedAt(\DateTimeInterface $at): static
     {
         $this->updated_at = $at;
+
+        return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTime
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updated_at;
     }
 
-    public function setCreatedAt(\DateTime $at): void
+    public function setCreatedAt(\DateTimeInterface $at): static
     {
         $this->created_at = $at;
+
+        return $this;
     }
 
-    public function getCreatedAt(): ?\DateTime
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->created_at;
     }

@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace Hostnet\Component\EntityBlamable\Listener;
 
-use Doctrine\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Hostnet\Component\EntityBlamable\BlamableInterface;
 use Hostnet\Component\EntityBlamable\Provider\BlamableProviderInterface;
 use Hostnet\Component\EntityBlamable\Resolver\BlamableResolverInterface;
@@ -19,7 +19,7 @@ use Symfony\Component\Cache\Adapter\ArrayAdapter;
  * Listens to "Events::entityChanged"
  *
  * Attempts to set updated at, created at, updated by and updated at fields
- * in an entity using @Blamable and implementing the BlamableInterface
+ * in an entity using #[Blamable] and implementing the BlamableInterface
  */
 class BlamableListener
 {
@@ -30,9 +30,6 @@ class BlamableListener
     ) {
     }
 
-    /**
-     * @param EntityChangedEvent $event
-     */
     public function entityChanged(EntityChangedEvent $event): void
     {
         $entity = $event->getCurrentEntity();
@@ -53,9 +50,9 @@ class BlamableListener
         }
     }
 
-    private function isBlamable(ObjectManager $em, mixed $entity): bool
+    private function isBlamable(EntityManagerInterface $em, object $entity): bool
     {
-        $cache_key   = base64_encode('BLAMABLE-' . get_class($entity));
+        $cache_key   = base64_encode('BLAMABLE-' . $entity::class);
         $cached_item = $this->is_blamable_cache->getItem($cache_key);
 
         if ($cached_item->isHit()) {
@@ -64,10 +61,6 @@ class BlamableListener
 
         if (!($entity instanceof BlamableInterface)) {
             return $this->save($cached_item, false);
-        }
-
-        if (null !== $this->resolver->getBlamableAnnotation($em, $entity)) {
-            return $this->save($cached_item, true);
         }
 
         if (null !== $this->resolver->getBlamableAttribute($em, $entity)) {

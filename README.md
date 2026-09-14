@@ -21,7 +21,7 @@ This component lets you automatically update entities by implementing `setUpdate
 
 Requirements
 ------------
-The blamable component requires a minimum of php 5.4 and runs on Doctrine2. For specific requirements, please check [composer.json](../master/composer.json).
+The blamable component requires a minimum of php 8.3 and runs on Doctrine2. For specific requirements, please check [composer.json](../master/composer.json).
 
 Installation
 ------------
@@ -32,7 +32,7 @@ Installing is pretty easy, this package is available on [packagist](https://pack
 
 ```javascript
     "require" : {
-        "hostnet/entity-blamable-component" : "1.*"
+        "hostnet/entity-blamable-component" : "2.*"
     }
 
 ```
@@ -45,14 +45,14 @@ Documentation
 How does it work?
 -----------------
 
-It works by putting the `@Blamable` annotation and BlamableInterface on your Entity and registering the listener on the entityChanged event, assuming you have already configured the [Entity Tracker Component](https://github.com/hostnet/entity-tracker-component/#setup).
+It works by putting the `#[Blamable]` attribute and BlamableInterface on your Entity and registering the listener on the entityChanged event, assuming you have already configured the [Entity Tracker Component](https://github.com/hostnet/entity-tracker-component/#setup).
 
 For a usage example, follow the setup below.
 
 Setup
 -----
 
- - You have to add `@Blamable` to your entity
+ - You have to add `#[Blamable]` to your entity
  - You have to add the BlamableInterface to your entity
  - You have to implement the BlamableProviderInterface on an object and pass it to the listener
 
@@ -72,27 +72,24 @@ use Acme\Bundle\AcmeBundle\Service\AcmeBlamableProvider;
 use Hostnet\Component\EntityBlamable\Listener\BlamableListener;
 use Hostnet\Component\EntityBlamable\Resolver\BlamableResolver;
 use Hostnet\Component\EntityTracker\Listener\EntityChangedListener;
-use Hostnet\Component\EntityTracker\Provider\EntityAnnotationMetadataProvider;
+use Hostnet\Component\EntityTracker\Provider\EntityMetadataProvider;
 use Hostnet\Component\EntityTracker\Provider\EntityMutationMetadataProvider;
 
 /* @var $em \Doctrine\ORM\EntityManager */
 $event_manager = $em->getEventManager();
 
-// default doctrine annotation reader
-$annotation_reader = new AnnotationReader();
-
 // setup required providers
-$mutation_metadata_provider   = new EntityMutationMetadataProvider($annotation_reader);
-$annotation_metadata_provider = new EntityAnnotationMetadataProvider($annotation_reader);
+$mutation_metadata_provider = new EntityMutationMetadataProvider();
+$metadata_provider          = new EntityMetadataProvider();
 
-// pre flush event listener that uses the @Tracked/@Blamable annotation
+// pre flush event listener that uses the #[Tracked]/#[Blamable] attribute
 $entity_changed_listener = new EntityChangedListener(
-    $mutation_metadata_provider,
-    $annotation_metadata_provider
+    $metadata_provider,
+    $mutation_metadata_provider
 );
 
-// the resolver is used to find the correct annotation
-$blamable_resolver = new BlamableResolver($annotation_metadata_provider);
+// the resolver is used to find the correct attribute
+$blamable_resolver = new BlamableResolver($metadata_provider);
 
 // the object that will provide the username and date time. This is an 
 // application specific implementation of the BlamableProviderInterface
@@ -120,21 +117,18 @@ use Hostnet\Component\EntityBlamable\Provider\BlamableProviderInterface;
 
 class AcmeBlamableProvider implements BlamableProviderInterface
 {
-    private $username;
-
-    public function __construct($username)
+    public function __construct(private string $username)
     {
-        $this->username = $username;
     }
 
-    public function getUpdatedBy()
+    public function getUpdatedBy(): string
     {
         return $this->username;
     }
-    
-    public function getChangedAt()
+
+    public function getChangedAt(): \DateTimeInterface
     {
-        return new \DateTime();
+        return new \DateTimeImmutable();
     }
 }
 
@@ -142,48 +136,46 @@ class AcmeBlamableProvider implements BlamableProviderInterface
 ```
 
 #### Configuring the Entity
-All we have to do now is put the `@Blamable` annotation and BlamableInterface on our Entity.
+All we have to do now is put the `#[Blamable]` attribute and BlamableInterface on our Entity.
 
 ```php
 
 use Doctrine\ORM\Mapping as ORM;
-use Hostnet\Component\EntityBlamable\Blamable;
+use Hostnet\Component\EntityBlamable\Attributes\Blamable;
 use Hostnet\Component\EntityBlamable\BlamableInterface;
 
-/**
- * @ORM\Entity
- * @Blamable
- */
+#[ORM\Entity]
+#[Blamable]
 class MyEntity implements BlamableInterface
 {
-    /**
-     * @ORM\...
-     */
-    private $updated_by;
-    
-    /**
-     * @ORM\...
-     */
-    private $updated_at;
-    
-    /**
-     * @ORM\...
-     */
-    private $created_at;
-    
-    public function setUpdatedBy($by)
+    #[ORM\Column(nullable: true)]
+    private ?string $updated_by = null;
+
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeInterface $updated_at = null;
+
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeInterface $created_at = null;
+
+    public function setUpdatedBy(string $by): static
     {
         $this->updated_by = $by;
+
+        return $this;
     }
 
-    public function setUpdatedAt(\DateTime $at)
+    public function setUpdatedAt(\DateTimeInterface $at): static
     {
-        $this->changed_at = $at;
+        $this->updated_at = $at;
+
+        return $this;
     }
-    
-    public function setCreatedAt(\DateTime $at)
+
+    public function setCreatedAt(\DateTimeInterface $at): static
     {
-        $this->created_at = $at
+        $this->created_at = $at;
+
+        return $this;
     }
 }
 

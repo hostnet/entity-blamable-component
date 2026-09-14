@@ -6,18 +6,9 @@ declare(strict_types=1);
 
 namespace Hostnet\Component\EntityBlamable\Provider;
 
-/**
- * @TODO: add (return)typehints on next BC break, when removing doctrine/annotations
- */
 interface BlamableProviderInterface
 {
-    /**
-     * @return string
-     */
-    public function getUpdatedBy();
+    public function getUpdatedBy(): string;
 
-    /**
-     * @return \DateTime
-     */
-    public function getChangedAt();
+    public function getChangedAt(): \DateTimeInterface;
 }

@@ -8,23 +8,12 @@ namespace Hostnet\Component\EntityBlamable;
 
 /**
  * Implement on Entities to trigger the BlamableEntityListener
- *
- * @TODO: add (return)typehints on next BC break, when removing doctrine/annotations
  */
 interface BlamableInterface
 {
-    /**
-     * @param string $by
-     */
-    public function setUpdatedBy($by);
+    public function setUpdatedBy(string $by): static;
 
-    /**
-     * @param \DateTime $at
-     */
-    public function setUpdatedAt(\DateTime $at);
+    public function setUpdatedAt(\DateTimeInterface $at): static;
 
-    /**
-     * @param \DateTime $at
-     */
-    public function setCreatedAt(\DateTime $at);
+    public function setCreatedAt(\DateTimeInterface $at): static;
 }

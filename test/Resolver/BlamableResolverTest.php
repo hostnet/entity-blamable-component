@@ -6,8 +6,9 @@ declare(strict_types=1);
 
 namespace Hostnet\Component\EntityBlamable\Resolver;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Hostnet\Component\EntityBlamable\Attributes\Blamable;
-use Hostnet\Component\EntityBlamable\Blamable as BlamableAnnotation;
+use Hostnet\Component\EntityTracker\Provider\EntityMetadataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -22,28 +23,16 @@ class BlamableResolverTest extends TestCase
     public function setUp(): void
     {
         $this->provider = $this
-            ->getMockBuilder('Hostnet\Component\EntityTracker\Provider\EntityAnnotationMetadataProvider')
+            ->getMockBuilder(EntityMetadataProvider::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->em = $this
-            ->getMockBuilder('Doctrine\ORM\EntityManagerInterface')
+            ->getMockBuilder(EntityManagerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->resolver = new BlamableResolver($this->provider);
-    }
-
-    public function testGetBlamableAnnotation(): void
-    {
-        $entity = new \stdClass();
-
-        $this->provider
-            ->expects($this->once())
-            ->method('getAnnotationFromEntity')
-            ->with($this->em, $entity, BlamableAnnotation::class);
-
-        $this->resolver->getBlamableAnnotation($this->em, $entity);
     }
 
     public function testGetRevisionAttribute(): void
