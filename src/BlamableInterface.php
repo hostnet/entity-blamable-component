@@ -13,7 +13,7 @@ interface BlamableInterface
 {
     public function setUpdatedBy(string $by): static;
 
-    public function setUpdatedAt(\DateTimeInterface $at): static;
+    public function setUpdatedAt(\DateTime $at): static;
 
-    public function setCreatedAt(\DateTimeInterface $at): static;
+    public function setCreatedAt(\DateTime $at): static;
 }

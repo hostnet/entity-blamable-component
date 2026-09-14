@@ -126,7 +126,7 @@ class AcmeBlamableProvider implements BlamableProviderInterface
         return $this->username;
     }
 
-    public function getChangedAt(): \DateTimeInterface
+    public function getChangedAt(): \DateTime
     {
         return new \DateTimeImmutable();
     }
@@ -152,10 +152,10 @@ class MyEntity implements BlamableInterface
     private ?string $updated_by = null;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private ?\DateTimeInterface $updated_at = null;
+    private ?\DateTime $updated_at = null;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
-    private ?\DateTimeInterface $created_at = null;
+    private ?\DateTime $created_at = null;
 
     public function setUpdatedBy(string $by): static
     {
@@ -164,14 +164,14 @@ class MyEntity implements BlamableInterface
         return $this;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $at): static
+    public function setUpdatedAt(\DateTime $at): static
     {
         $this->updated_at = $at;
 
         return $this;
     }
 
-    public function setCreatedAt(\DateTimeInterface $at): static
+    public function setCreatedAt(\DateTime $at): static
     {
         $this->created_at = $at;
 
